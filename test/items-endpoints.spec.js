@@ -3,7 +3,7 @@ const knex = require('knex')
 const app = require('../src/app')
 const { makeItemsArray } = require('./items.fixtures')
 
-describe.only('Items Endpoints', function() {
+describe('Items Endpoints', function() {
     let db
 
     before('make knex instance', () => {
@@ -73,6 +73,68 @@ describe.only('Items Endpoints', function() {
                     .expect(404, { error: { message: `Item doesn't exist` } })
             })
         })
+    })
+
+    describe.only('POST /items', () => {
+        it(`creates an item, responding with 201 and the new item`, function() {
+            const newItem = {
+                rating: '🎸',
+                gear_name: 'Test post gear_name',
+                features: 'Test post features',
+                comments: 'Test post comments'
+            }
+            return supertest(app)
+                .post('/items')
+                .send(newItem)
+                .expect(201)
+                .expect(res => {
+                    expect(res.body.rating).to.eql(newItem.rating)
+                    expect(res.body.gear_name).to.eql(newItem.gear_name)
+                    expect(res.body.features).to.eql(newItem.features)
+                    expect(res.body.comments).to.eql(newItem.comments)
+                    expect(res.body).to.have.property('id')
+                })
+        })
+
+        it(`responds with 400 and an error message when the 'rating' is missing`, () => {
+            return supertest(app)
+                .post('/items')
+                .send({
+                    gear_name: 'test gear_name',
+                    features: 'test features',
+                    comments: 'test comments'
+                })
+                .expect(400, {
+                    error: { message: `Missing 'rating' in request body` }
+                })
+        })
+
+        it(`responds with 400 and an error message when the 'gear_name' is missing`, () => {
+            return supertest(app)
+                .post('/items')
+                .send({
+                    rating: '🎸',
+                    features: 'test features',
+                    comments: 'test comments'
+                })
+                .expect(400, {
+                    error: { message: `Missing 'gear_name' in request body` }
+                })
+        })
+
+        it(`responds with 400 and an error message when the 'features' is missing`, () => {
+            return supertest(app)
+                .post('/items')
+                .send({
+                    rating: '🎸',
+                    gear_name: 'test gear_name',
+                    comments: 'test comments'
+                })
+                .expect(400, {
+                    error: { message: `Missing 'features' in request body` }
+                })
+        })
+        
     })
     
 })

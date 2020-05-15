@@ -1,7 +1,8 @@
 const express = require('express')
 const ItemsService = require('./ItemsService')
-const itemRouter = express.Router()
 
+const itemRouter = express.Router()
+const jsonParser = express.json()
 
 itemRouter 
     .route('/items')
@@ -12,6 +13,30 @@ itemRouter
                 res.json(items)
             })
             .catch(next)
+    })
+    .post(jsonParser, (req, res, next) => {
+       const { rating, gear_name, features, comments } = req.body
+       const newItem = { rating, gear_name, features, comments }
+
+       for (const [key, value] of Object.entries(newItem)) {
+           if (value == null) {
+               return res.status(400).json({
+                   error: { message: `Missing '${key}' in request body` }
+               })
+           }
+       }
+
+       ItemsService.insertItems(
+           req.app.get('db'),
+           newItem
+       )
+        .then(item => {
+            res
+                .status(201)
+                .location(`/items/${item.id}`)
+                .json(item)
+        })
+        .catch(next)
     })
 
 
