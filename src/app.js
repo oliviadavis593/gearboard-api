@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config') 
+const ItemsService = require('../src/items/ItemsService')
 
 const app = express()
 
@@ -16,6 +17,15 @@ app.use(helmet())
 app.use(cors({
     origin: '*'
 }));
+
+app.get('/items', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    ItemsService.getAllItems(knexInstance)
+        .then(items => {
+            res.json(items)
+        })
+        .catch(next)
+})
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
