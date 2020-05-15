@@ -96,44 +96,27 @@ describe('Items Endpoints', function() {
                 })
         })
 
-        it(`responds with 400 and an error message when the 'rating' is missing`, () => {
-            return supertest(app)
-                .post('/items')
-                .send({
-                    gear_name: 'test gear_name',
-                    features: 'test features',
-                    comments: 'test comments'
-                })
-                .expect(400, {
-                    error: { message: `Missing 'rating' in request body` }
-                })
-        })
+       const requiredFields = ['rating', 'gear_name', 'features', 'comments']
 
-        it(`responds with 400 and an error message when the 'gear_name' is missing`, () => {
-            return supertest(app)
-                .post('/items')
-                .send({
-                    rating: '🎸',
-                    features: 'test features',
-                    comments: 'test comments'
-                })
-                .expect(400, {
-                    error: { message: `Missing 'gear_name' in request body` }
-                })
-        })
+       requiredFields.forEach(field => {
+           const newItem = {
+               rating: 'Test rating',
+               gear_name: 'Test gear_name',
+               features: 'Test features',
+               comments: 'Test comments'
+           }
 
-        it(`responds with 400 and an error message when the 'features' is missing`, () => {
-            return supertest(app)
+           it(`responds with 400 and an error message when '${field}' is missing`, () => {
+               delete newItem[field]
+
+               return supertest(app)
                 .post('/items')
-                .send({
-                    rating: '🎸',
-                    gear_name: 'test gear_name',
-                    comments: 'test comments'
-                })
+                .send(newItem)
                 .expect(400, {
-                    error: { message: `Missing 'features' in request body` }
+                    error: { message: `Missing '${field}' in request body` }
                 })
-        })
+           })
+       })
         
     })
     
