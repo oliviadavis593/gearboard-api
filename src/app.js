@@ -20,7 +20,7 @@ app.use(cors({
     origin: '*'
 }));
 
-app.use(itemRouter)
+app.use('/api/items',itemRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')

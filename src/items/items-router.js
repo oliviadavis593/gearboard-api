@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const ItemsService = require('./ItemsService')
 
@@ -5,7 +6,7 @@ const itemRouter = express.Router()
 const jsonParser = express.json()
 
 itemRouter 
-    .route('/items')
+    .route('/')
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ItemsService.getAllItems(knexInstance)
@@ -33,7 +34,7 @@ itemRouter
         .then(item => {
             res
                 .status(201)
-                .location(`/items/${item.id}`)
+                .location(path.posix.join(req.originalUrl, `/${item.id}`))
                 .json(item)
         })
         .catch(next)
@@ -41,7 +42,7 @@ itemRouter
 
 
 itemRouter
-    .route('/items/:item_id')
+    .route('/:item_id')
     .all((req, res, next) => {
         ItemsService.getById(
             req.app.get('db'),

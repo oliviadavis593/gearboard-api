@@ -20,7 +20,7 @@ describe('Items Endpoints', function() {
 
     afterEach('cleanup', () => db('gearboard_items').truncate())
 
-    describe('GET /items', () => {
+    describe('GET /api/items', () => {
         context('Given there are items in the database', () => {
             const testItems = makeItemsArray()
     
@@ -32,7 +32,7 @@ describe('Items Endpoints', function() {
     
             it('GET /items responds with 200 and all of the items', () => {
                 return supertest(app)
-                    .get('/items')
+                    .get('/api/items')
                     .expect(200, testItems)
             })
         })
@@ -40,13 +40,13 @@ describe('Items Endpoints', function() {
         context('Given no items', () => {
             it(`responds with 200 and an empty list`, () => {
                 return supertest(app)
-                    .get('/items')
+                    .get('/api/items')
                     .expect(200, [])
             })
         })
     })
 
-    describe('GET /items/:item_id', () => {
+    describe('GET /api/items/:item_id', () => {
         context('Given there are articles in the database', () => {
             const testItems = makeItemsArray()
 
@@ -60,7 +60,7 @@ describe('Items Endpoints', function() {
                 const itemId = 2
                 const expectedItem = testItems[itemId - 1]
                 return supertest(app)
-                    .get(`/items/${itemId}`)
+                    .get(`/api/items/${itemId}`)
                     .expect(200, expectedItem)
             })
         })
@@ -69,13 +69,13 @@ describe('Items Endpoints', function() {
             it(`responds with 404`, () => {
                 const itemId = 123456
                 return supertest(app)
-                    .get(`/items/${itemId}`)
+                    .get(`/api/items/${itemId}`)
                     .expect(404, { error: { message: `Item doesn't exist` } })
             })
         })
     })
 
-    describe('POST /items', () => {
+    describe('POST /api/items', () => {
         it(`creates an item, responding with 201 and the new item`, function() {
             const newItem = {
                 rating: '🎸',
@@ -84,7 +84,7 @@ describe('Items Endpoints', function() {
                 comments: 'Test post comments'
             }
             return supertest(app)
-                .post('/items')
+                .post('/api/items')
                 .send(newItem)
                 .expect(201)
                 .expect(res => {
@@ -110,7 +110,7 @@ describe('Items Endpoints', function() {
                delete newItem[field]
 
                return supertest(app)
-                .post('/items')
+                .post('/api/items')
                 .send(newItem)
                 .expect(400, {
                     error: { message: `Missing '${field}' in request body` }
@@ -120,7 +120,7 @@ describe('Items Endpoints', function() {
         
     })
 
-    describe(`DELETE /items/:item_id`, () => {
+    describe(`DELETE /api/items/:item_id`, () => {
         context('Given there are items in the database', () => {
             const testItems = makeItemsArray()
 
@@ -134,11 +134,11 @@ describe('Items Endpoints', function() {
                 const idToRemove = 2
                 const expectedItems = testItems.filter(item => item.id !== idToRemove)
                 return supertest(app)
-                    .delete(`/items/${idToRemove}`)
+                    .delete(`/api/items/${idToRemove}`)
                     .expect(204)
                     .then(res => 
                         supertest(app)
-                            .get(`/items`)
+                            .get(`/api/items`)
                             .expect(expectedItems)    
                     )
             })
@@ -148,7 +148,7 @@ describe('Items Endpoints', function() {
             it(`responds with 404`, () => {
                 const itemId = 123456
                 return supertest(app)
-                    .delete(`/items/${itemId}`)
+                    .delete(`/api/items/${itemId}`)
                     .expect(404, { error: { message: `Item doesn't exist` } })
             })
         })
