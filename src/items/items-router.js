@@ -42,18 +42,40 @@ itemRouter
 
 itemRouter
     .route('/items/:item_id')
+    .all((req, res, next) => {
+        ItemsService.getById(
+            req.app.get('db'),
+            req.params.item_id
+        )
+            .then(item => {
+                if (!item) {
+                    return res.status(404).json({
+                        error: { message: `Item doesn't exist` }
+                    })
+                }
+                res.item = item //save the item for the next middleware
+                next()
+            })
+            .catch(next)
+    })
     .get((req, res, next) => {
-        const knexInstance = req.app.get('db')
-        ItemsService.getById(knexInstance, req.params.item_id)
-        .then(item => {
-            if (!item) {
-                return res.status(404).json({
-                    error: { message: `Item doesn't exist` }
-                })
-            }
-            res.json(item)
+        res.json({
+            id: res.item.id, 
+            rating: res.item.rating,
+            gear_name: res.item.gear_name, 
+            features: res.item.features, 
+            comments: res.item.comments
         })
-        .catch(next)
+    })
+    .delete((req, res, next) => {
+        ItemsService.deleteItem(
+            req.app.get('db'),
+            req.params.item_id
+        )
+            .then(() => {
+                res.status(204).end()
+            })
+            .catch(next)
     })
 
 

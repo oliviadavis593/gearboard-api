@@ -75,7 +75,7 @@ describe('Items Endpoints', function() {
         })
     })
 
-    describe.only('POST /items', () => {
+    describe('POST /items', () => {
         it(`creates an item, responding with 201 and the new item`, function() {
             const newItem = {
                 rating: '🎸',
@@ -118,6 +118,40 @@ describe('Items Endpoints', function() {
            })
        })
         
+    })
+
+    describe(`DELETE /items/:item_id`, () => {
+        context('Given there are items in the database', () => {
+            const testItems = makeItemsArray()
+
+            beforeEach('insert items', () => {
+                return db
+                    .into('gearboard_items')
+                    .insert(testItems)
+            })
+
+            it('responds with 204 and removes the item', () => {
+                const idToRemove = 2
+                const expectedItems = testItems.filter(item => item.id !== idToRemove)
+                return supertest(app)
+                    .delete(`/items/${idToRemove}`)
+                    .expect(204)
+                    .then(res => 
+                        supertest(app)
+                            .get(`/items`)
+                            .expect(expectedItems)    
+                    )
+            })
+        })
+
+        context(`Given no items`, () => {
+            it(`responds with 404`, () => {
+                const itemId = 123456
+                return supertest(app)
+                    .delete(`/items/${itemId}`)
+                    .expect(404, { error: { message: `Item doesn't exist` } })
+            })
+        })
     })
     
 })
