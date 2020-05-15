@@ -27,6 +27,20 @@ app.get('/items', (req, res, next) => {
         .catch(next)
 })
 
+app.get('/items/:item_id', (req, res, next) => {
+    const knexInstance = req.app.get('db')
+    ItemsService.getById(knexInstance, req.params.item_id)
+        .then(item => {
+            if (!item) {
+                return res.status(404).json({
+                    error: { message: `Item doesn't exist` }
+                })
+            }
+            res.json(item)
+        })
+        .catch(next)
+})
+
 app.get('/', (req, res) => {
     res.send('Hello, world!')
 })
