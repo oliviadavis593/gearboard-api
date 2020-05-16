@@ -153,5 +153,89 @@ describe('Items Endpoints', function() {
             })
         })
     })
+
+    describe(`PATCH /api/items/:item_id`, () => {
+        context('Given there are items in the database', () => {
+            const testItems = makeItemsArray()
+
+            beforeEach('insert items', () => {
+                return db 
+                    .into('gearboard_items')
+                    .insert(testItems)
+            })
+
+            it('responds with 204 and updates the article', () => {
+                const idToUpdate = 2
+                const updateItem = {
+                    rating: '🎸',
+                    gear_name: 'Update gear_name test',
+                    features: 'Update features test',
+                    comments: 'Update comments test'
+                }
+
+                const expectedItem = {
+                    ...testItems[idToUpdate - 1],
+                    ...updateItem
+                }
+
+                return supertest(app)
+                    .patch(`/api/items/${idToUpdate}`)
+                    .send(updateItem)
+                    .expect(204)
+                    .then(res => 
+                        supertest(app)
+                            .get(`/api/items/${idToUpdate}`)
+                            .expect(expectedItem)    
+                    )
+            })
+
+            it(`responds with 400 when no required fields supplied`, () => {
+                const idToUpdate = 2
+                return supertest(app)
+                    .patch(`/api/items/${idToUpdate}`)
+                    .send({ irrelevantField: 'foo' })
+                    .expect(400, {
+                        error: {
+                            message: `Request body must contain 'rating', 'gear_name', 'features'`
+                        }
+                    })
+            })
+
+            it(`responds with 204 when updating only a subset of fields`, () => {
+                const idToUpdate = 2
+                const updateItem = {
+                    gear_name: 'updated item gear_name'
+                }
+                
+                const expectedItem = {
+                    ...testItems[idToUpdate - 1],
+                    ...updateItem
+                }
+
+                return supertest(app)
+                    .patch(`/api/items/${idToUpdate}`)
+                    .send({
+                        ...updateItem, 
+                        fieldToIgnore: 'should not be in GET response'
+                    })
+                    .expect(204)
+                    .then(res => 
+                        supertest(app)
+                        .get(`/api/items/${idToUpdate}`)
+                        .expect(expectedItem)    
+                    )
+            })
+        })
+
+
+        context(`Given no items`, () => {
+            it(`responds with 404`, () => {
+                const itemId = 123456
+                return supertest(app)
+                    .patch(`/api/items/${itemId}`)
+                    .expect(404, { error: { message: `Item doesn't exist` } })
+            })
+        })
+    })
     
 })

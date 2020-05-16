@@ -78,6 +78,29 @@ itemRouter
             })
             .catch(next)
     })
+    .patch(jsonParser, (req, res, next) => {
+        const { rating, gear_name, features, comments } = req.body
+        const itemToUpdate = { rating, gear_name, features, comments}
+
+        const numberOfValues = Object.values(itemToUpdate).filter(Boolean).length
+        if (numberOfValues === 0) {
+            return res.status(400).json({
+                error: {
+                    message: `Request body must contain 'rating', 'gear_name', 'features'`
+                }
+            })
+        } 
+
+        ItemsService.updateItem(
+            req.app.get('db'),
+            req.params.item_id,
+            itemToUpdate
+        )
+            .then(numRowsAffected => {
+                res.status(204).end()
+            })
+            .catch(next)
+    })
 
 
 module.exports = itemRouter
