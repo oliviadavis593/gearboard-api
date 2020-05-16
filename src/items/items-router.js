@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const xss = require('xss')
 const ItemsService = require('./ItemsService')
 
 const itemRouter = express.Router()
@@ -63,9 +64,9 @@ itemRouter
         res.json({
             id: res.item.id, 
             rating: res.item.rating,
-            gear_name: res.item.gear_name, 
-            features: res.item.features, 
-            comments: res.item.comments
+            gear_name: xss(res.item.gear_name), 
+            features: xss(res.item.features), 
+            comments: xss(res.item.comments)
         })
     })
     .delete((req, res, next) => {

@@ -46,7 +46,7 @@ describe('Items Endpoints', function() {
         })
     })
 
-    describe('GET /api/items/:item_id', () => {
+    describe.only('GET /api/items/:item_id', () => {
         context('Given there are articles in the database', () => {
             const testItems = makeItemsArray()
 
@@ -71,6 +71,33 @@ describe('Items Endpoints', function() {
                 return supertest(app)
                     .get(`/api/items/${itemId}`)
                     .expect(404, { error: { message: `Item doesn't exist` } })
+            })
+        })
+
+        context(`Given an XSS attack item`, () => {
+            const maliciousItem = {
+                id: '911',
+                rating: '🎸',
+                gear_name: 'Naughty naughty very naughty <script>alert("xss");</script>',
+                features: 'Naughty naughty very naughty <script>alert("xss");</script>',
+                comments: `Bad image <img src="https://url.to.file.which/does-not.exist" onerror="alert(document.cookie);">. But not <strong>all</strong> bad.`
+            }
+
+            beforeEach('insert malicious item', () => {
+                return db
+                    .into('gearboard_items')
+                    .insert([ maliciousItem ])
+            })
+
+            it('removes XSS attack content', () => {
+                return supertest(app)
+                    .get(`/api/items/${maliciousItem.id}`)
+                    .expect(200)
+                    .expect(res => {
+                        expect(res.body.gear_name).to.eql('Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;')
+                        expect(res.body.features).to.eql('Naughty naughty very naughty &lt;script&gt;alert(\"xss\");&lt;/script&gt;')
+                        expect(res.body.comments).to.eql(`Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`)
+                    })
             })
         })
     })
