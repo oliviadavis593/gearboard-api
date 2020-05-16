@@ -6,13 +6,21 @@ const ItemsService = require('./ItemsService')
 const itemRouter = express.Router()
 const jsonParser = express.json()
 
+const searializeItem = item => ({
+    id: item.id, 
+    rating: item.rating, 
+    gear_name: xss(item.gear_name), 
+    features: xss(item.features), 
+    comments: xss(item.comments)
+})
+
 itemRouter 
     .route('/')
     .get((req, res, next) => {
         const knexInstance = req.app.get('db')
         ItemsService.getAllItems(knexInstance)
             .then(items => {
-                res.json(items)
+                res.json(items.map(searializeItem))
             })
             .catch(next)
     })
@@ -36,7 +44,7 @@ itemRouter
             res
                 .status(201)
                 .location(path.posix.join(req.originalUrl, `/${item.id}`))
-                .json(item)
+                .json(searializeItem(item))
         })
         .catch(next)
     })
@@ -61,13 +69,7 @@ itemRouter
             .catch(next)
     })
     .get((req, res, next) => {
-        res.json({
-            id: res.item.id, 
-            rating: res.item.rating,
-            gear_name: xss(res.item.gear_name), 
-            features: xss(res.item.features), 
-            comments: xss(res.item.comments)
-        })
+        res.json(searializeItem(res.item))
     })
     .delete((req, res, next) => {
         ItemsService.deleteItem(

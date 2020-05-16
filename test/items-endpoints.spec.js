@@ -46,7 +46,7 @@ describe('Items Endpoints', function() {
         })
     })
 
-    describe.only('GET /api/items/:item_id', () => {
+    describe('GET /api/items/:item_id', () => {
         context('Given there are articles in the database', () => {
             const testItems = makeItemsArray()
 
