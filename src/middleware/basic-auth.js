@@ -2,7 +2,17 @@ const AuthService = require('../auth/auth-service')
 
 //processes requests that contain basic token 
 function requireAuth(res, req, next) {
-    const authToken = req.get('Authorization') || ''
+    console.log('requireAuth')
+    console.log(req.get('Authorization'))
+    next()
+}
+
+module.exports = {
+    requireAuth,
+}
+
+/*
+const authToken = req.get('Authorization') || ''
     
     let basicToken 
     if (!authToken.toLowerCase().startsWith('basic ')) {
@@ -28,8 +38,4 @@ function requireAuth(res, req, next) {
             next()
         })
         .catch(next)
-}
-
-module.exports = {
-    requireAuth
-}
+*/
