@@ -6,4 +6,12 @@ VALUES
     ('🎸🎸🎸', 'FL Studio 20 Signature', 'loaded with all the same great features as the Producer Edition, plus an expanded range of tools, instruments, and effects', 'This is a great introduction DAW. However, it can be extremely limiting after awhile.'),
     ('🎸🎸', 'Rogue SX100B Series II Electric Bass', 'Basswood dual cutaway body, Bolt-on maple neck with rosewood fingerboard, High-mass adjustable saddle bridge, P-style split coil neck pickup', 'I would not recommend this, you are better off buying an Ibanez for a little bit more money.'),
     ('🎸🎸🎸', 'Yamaha DGX-660 88-key Portable Grand', 'Action: Graded hammer action, Aftertouch / Velocity: Velocity Sensitive, Polyphony (max): 192', 'The velocity keys are cheap but the range of sounds make up for it'),
-    ('🎸🎸🎸🎸🎸', 'Zildjian A Customer Crash Cymbal', '15-18in cymbal ranges', 'The best cymbals I have ever purchased')
+    ('🎸🎸🎸🎸🎸', 'Zildjian A Customer Crash Cymbal', '15-18in cymbal ranges', 'The best cymbals I have ever purchased');
+
+INSERT INTO gearboard_users (full_name, email, password)
+VALUES
+    ('Demo', 'demo@gearboard.com', 'demogearpass!'),
+    ('Olivia Davis', 'olivia.davis593@gmail.com', 'gearboardOwner'),
+    ('Sam Smith', 'sam@hotmail.com', 'sam-password'),
+    ('Ashley Adams', 'adams@hotmail.com', 'adams-password'),
+    ('C. Jacobs', 'C123@jacobs.com', 'cedars-password');
