@@ -1,3 +1,4 @@
+
 function makeItemsArray() {
     return [
         {
@@ -24,6 +25,26 @@ function makeItemsArray() {
     ];
 }
 
+function makeLoginArray() {
+    return [
+        {
+            email: 'dodo@gmail.com',
+            password: 'password'
+        },
+        {
+            email: 'gearboard@123.com',
+            password: 'password'
+        },
+        {
+            email: 'fearboard@111.com',
+            password: 'password'
+        }
+    ]
+}
+
+
+
 module.exports = {
     makeItemsArray,
+    makeLoginArray
 }
