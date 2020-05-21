@@ -2,7 +2,6 @@ const path = require('path')
 const express = require('express')
 const xss = require('xss')
 const ItemsService = require('./ItemsService')
-const { requireAuth } = require('../middleware/basic-auth')
 
 
 const itemRouter = express.Router()
@@ -26,7 +25,7 @@ itemRouter
             })
             .catch(next)
     })
-    .post(requireAuth, jsonParser, (req, res, next) => {
+    .post(jsonParser, (req, res, next) => {
        const { rating, gear_name, features, comments } = req.body
        const newItem = { rating, gear_name, features, comments }
 
@@ -54,7 +53,6 @@ itemRouter
 
 itemRouter
     .route('/:item_id')
-    .all(requireAuth)
     .all((req, res, next) => {
         ItemsService.getById(
             req.app.get('db'),
