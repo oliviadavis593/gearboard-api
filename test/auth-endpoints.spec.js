@@ -1,8 +1,9 @@
 const knex = require('knex')
 const app = require('../src/app')
+const jwt = require('jsonwebtoken')
 const helpers = require('./items.fixtures')
 
-describe('Auth Endpoints', function() {
+describe.only('Auth Endpoints', function() {
   let db
 
   const { testUsers } = helpers.makeItemsFixtures()
@@ -72,6 +73,27 @@ describe('Auth Endpoints', function() {
                 .expect(400, {
                     error: `Incorrect email or password`
                 })
+          })
+
+          it(`responds 200 and JWT auth token using secret when credentials valid`, () => {
+            const userValidCreds = {
+              email: testUser.email, 
+              password: testUser.password, 
+            }
+            const expectedToken = jwt.sign(
+              { email: testUser.email }, //payload
+              process.env.JWT_SECRET, 
+              {
+                subject: testUser.email, 
+                algorithm: 'HS256'
+              }
+            )
+            return supertest(app)
+              .post('/api/login')
+              .send(userValidCreds)
+              .expect(200, {
+                authToken: expectedToken,
+              })
           })
       })
   })
