@@ -1,0 +1,62 @@
+{"message":"Features is required","level":"error"}
+{"message":"Features is required","level":"error"}
+{"message":"itemToUpdate is not defined","level":"error"}
+{"message":"update \"gearboard_items\" set \"rating\" = $1, \"gear_name\" = $2, \"features\" = $3, \"comments\" = $4 where \"id\" = $5 - invalid input value for enum emoji_rating: \"Update rating test\"","level":"error"}
+{"message":"item is not defined","level":"error"}
+{"message":"item is not defined","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}
+{"message":"res.status is not a function","level":"error"}

@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 
 function makeItemsArray() {
     return [
@@ -25,7 +26,7 @@ function makeItemsArray() {
     ];
 }
 
-function makeLoginArray() {
+function makeUsersArray() {
     return [
         {
             email: 'dodo@gmail.com',
@@ -42,9 +43,25 @@ function makeLoginArray() {
     ]
 }
 
+function makeItemsFixtures() {
+    const testUsers = makeUsersArray()
+
+    return { testUsers }
+}
+
+function makeAuthHeader(email, secret = process.env.JWT_SECRET) {
+    const token = jwt.sign({ email: email.id}, secret, {
+        subject: email.email, 
+        algorithm: 'HS256',
+    })
+    return `Bearer ${token}`
+}
+
 
 
 module.exports = {
     makeItemsArray,
-    makeLoginArray
+    makeUsersArray,
+    makeAuthHeader, 
+    makeItemsFixtures
 }

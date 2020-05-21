@@ -2,17 +2,7 @@ const AuthService = require('../auth/auth-service')
 
 //processes requests that contain basic token 
 function requireAuth(res, req, next) {
-    console.log('requireAuth')
-    console.log(req.get('Authorization'))
-    next()
-}
-
-module.exports = {
-    requireAuth,
-}
-
-/*
-const authToken = req.get('Authorization') || ''
+    const authToken = req.get('Authorization') || ''
     
     let basicToken 
     if (!authToken.toLowerCase().startsWith('basic ')) {
@@ -32,10 +22,23 @@ const authToken = req.get('Authorization') || ''
         tokenEmail
     )
         .then(email => {
-            if (!email || user.password !== tokenPassword) {
+            if (!email) {
                 return res.status(401).json({ error: 'Unauthorized request' })
             }
-            next()
+
+            return AuthService.comparePasswords(tokenPassword, user.password)
+                .then(passwordsMatch => {
+                    if (!passwordsMatch) {
+                        return res.status(401).json({ error: 'Unauthorized request' })
+                    }
+
+                    req.email = email
+                    next()
+                })
+                .catch(next)
         })
-        .catch(next)
-*/
+}
+
+module.exports = {
+    requireAuth,
+}

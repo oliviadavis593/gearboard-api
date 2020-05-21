@@ -1,0 +1,1 @@
+ALTER TABLE gearboard_users DROP COLUMN full_name

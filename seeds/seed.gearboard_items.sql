@@ -8,10 +8,10 @@ VALUES
     ('🎸🎸🎸', 'Yamaha DGX-660 88-key Portable Grand', 'Action: Graded hammer action, Aftertouch / Velocity: Velocity Sensitive, Polyphony (max): 192', 'The velocity keys are cheap but the range of sounds make up for it'),
     ('🎸🎸🎸🎸🎸', 'Zildjian A Customer Crash Cymbal', '15-18in cymbal ranges', 'The best cymbals I have ever purchased');
 
-INSERT INTO gearboard_users (full_name, email, password)
+INSERT INTO gearboard_users ( email, password)
 VALUES
-    ('Demo', 'demo@gearboard.com', 'demogearpass!'),
-    ('Olivia Davis', 'olivia.davis593@gmail.com', 'gearboardOwner'),
-    ('Sam Smith', 'sam@hotmail.com', 'sam-password'),
-    ('Ashley Adams', 'adams@hotmail.com', 'adams-password'),
-    ('C. Jacobs', 'C123@jacobs.com', 'cedars-password');
+    ('demo@gearboard.com', 'demogearpass!'),
+    ('olivia.davis593@gmail.com', 'gearboardOwner'),
+    ('sam@hotmail.com', 'sam-password'),
+    ('adams@hotmail.com', 'adams-password'),
+    ('C123@jacobs.com', 'cedars-password');
