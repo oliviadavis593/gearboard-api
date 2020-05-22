@@ -9,7 +9,11 @@ const AuthService = {
             .first()
     },
     comparePasswords(password, hash) {
-        return bcrypt.compare(password, hash )
+        if (password === hash) {
+            return Promise.resolve(true)
+        } else {
+           return Promise.resolve(false)
+        }
     },
     createJwt(subject, payload) {
         return jwt.sign(payload, config.JWT_SECRET, {
