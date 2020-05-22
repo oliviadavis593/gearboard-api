@@ -1,3 +1,5 @@
+const xss = require('xss')
+
 const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
 
 const UsersService = {
@@ -6,6 +8,13 @@ const UsersService = {
         .where({ email })
         .first()
         .then(email => !!email)  
+    },
+    insertUser(db, newUser) {
+        return db
+            .insert(newUser)
+            .into('gearboard_users')
+            .returning('*')
+            .then(([user]) => user)
     },
     validatePassword(password) {
         if (password.length < 8) {
@@ -22,6 +31,13 @@ const UsersService = {
         }
         return null
     },
+    serializeUser(user) {
+        return {
+            id: user.id, 
+            full_name: xss(user.full_name),
+            email: xss(user.email), 
+        }
+    }
 }
 
 module.exports = UsersService

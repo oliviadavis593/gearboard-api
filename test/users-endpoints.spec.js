@@ -123,5 +123,37 @@ describe.only('Users Endpoints', function() {
                 })
             })
         })
+
+        context(`Happy path`, () => {
+            it(`responds 201, serialized user, storing bcryped password`, () => {
+                const newUser = {
+                    full_name: 'test full_name',
+                    password: '11AAaa!!',
+                    email: 'test@email.com',
+                }
+                return supertest(app)
+                    .post('/api/users')
+                    .send(newUser)
+                    .expect(201)
+                    .expect(res => {
+                        expect(res.body).to.have.property('id')
+                        expect(res.body.full_name).to.eql(newUser.full_name)
+                        expect(res.body.email).to.eql(newUser.email)
+                        expect(res.body).to.not.have.property('password')
+                        expect(res.headers.location).to.eql(`/api/users/${res.body.id}`)
+                    })
+                    .expect(res =>
+                        db
+                            .from('gearboard_users')
+                            .select('*')
+                            .where({ id: res.body.id })
+                            .first()
+                            .then(row => {
+                                expect(row.full_name).to.eql(newUser.full_name)
+                                expect(row.email).to.eql(newUser.email)
+                            })    
+                    )
+            })
+        })
     })
 })

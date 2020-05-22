@@ -1,12 +1,13 @@
 const express = require('express')
 const UsersService = require('./users-service')
+const path = require('path')
 
 const usersRouter = express.Router()
 const bodyParser = express.json()
 
 usersRouter
     .post('/', bodyParser, (req, res, next) => {
-        const { password, email } = req.body
+        const { password, email, full_name } = req.body
 
         for (const field of ['full_name', 'email', 'password'])
             if (!req.body[field])
@@ -27,7 +28,22 @@ usersRouter
                 if (hasUserWithEmail)
                     return res.status(400).json({ error: `Email already in use` })
 
-                res.send('ok')
+                const newUser = {
+                    full_name, 
+                    password, 
+                    email
+                }
+                
+                return UsersService.insertUser(
+                    req.app.get('db'),
+                    newUser
+                )
+                    .then(user => {
+                        res
+                            .status(201)
+                            .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                            .json(UsersService.serializeUser(user))
+                    })
             })
             .catch(next)
 
