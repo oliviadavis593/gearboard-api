@@ -1,8 +1,9 @@
 const knex = require('knex')
+const bcrypt = require('bcryptjs')
 const app = require('../src/app')
 const helpers = require('./items.fixtures')
 
-describe.only('Users Endpoints', function() {
+describe('Users Endpoints', function() {
     let db 
 
     const { testUsers } = helpers.makeItemsFixtures()
@@ -151,7 +152,12 @@ describe.only('Users Endpoints', function() {
                             .then(row => {
                                 expect(row.full_name).to.eql(newUser.full_name)
                                 expect(row.email).to.eql(newUser.email)
-                            })    
+
+                                return bcrypt.compare(newUser.password, row.password)
+                            })  
+                            .then(compareMatch => {
+                                expect(compareMatch).to.be.true
+                            })  
                     )
             })
         })

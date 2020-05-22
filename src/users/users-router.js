@@ -28,11 +28,14 @@ usersRouter
                 if (hasUserWithEmail)
                     return res.status(400).json({ error: `Email already in use` })
 
-                const newUser = {
-                    full_name, 
-                    password, 
-                    email
-                }
+                return UsersService.hashPassword(password)
+                    .then(hashedPassword => {
+                        const newUser = {
+                            full_name, 
+                            password: hashedPassword, 
+                            email, 
+                        }
+
                 
                 return UsersService.insertUser(
                     req.app.get('db'),
@@ -44,6 +47,7 @@ usersRouter
                             .location(path.posix.join(req.originalUrl, `/${user.id}`))
                             .json(UsersService.serializeUser(user))
                     })
+                })
             })
             .catch(next)
 
