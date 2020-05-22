@@ -3,7 +3,7 @@ const app = require('../src/app')
 const jwt = require('jsonwebtoken')
 const helpers = require('./items.fixtures')
 
-describe.only('Auth Endpoints', function() {
+describe('Auth Endpoints', function() {
   let db
 
   const { testUsers } = helpers.makeItemsFixtures()
