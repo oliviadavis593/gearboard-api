@@ -1,0 +1,1 @@
+ALTER TABLE gearboard_users ADD COLUMN full_name TEXT

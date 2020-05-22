@@ -29,26 +29,32 @@ function makeItemsArray() {
 function makeUsersArray() {
     return [
         {
+            full_name: 'Demo',
             email: 'dodo@gmail.com',
             password: 'password'
         },
-        {
+        {  
+            full_name: 'Test',
             email: 'gearboard@123.com',
             password: 'password'
         },
         {
+            full_name: 'Test',
             email: 'fearboard@111.com',
             password: 'password'
         }
     ]
 }
 
+
 function makeItemsFixtures() {
     const testUsers = makeUsersArray()
+    const testItems = makeItemsArray()
 
-    return { testUsers }
+    return { testUsers, testItems }
 }
 
+/*
 function makeAuthHeader(email, secret = process.env.JWT_SECRET) {
     const token = jwt.sign({ email: email.id}, secret, {
         subject: email.email, 
@@ -56,8 +62,12 @@ function makeAuthHeader(email, secret = process.env.JWT_SECRET) {
     })
     return `Bearer ${token}`
 }
+*/
 
-
+function makeAuthHeader(user) {
+    const token = Buffer.from(`${user.email}:${user.password}`).toString('base64')
+    return `Basic ${token}`
+}
 
 module.exports = {
     makeItemsArray,

@@ -7,6 +7,7 @@ const { NODE_ENV } = require('./config')
 const errorHandler = require('./error-handler')
 const itemRouter = require('./items/items-router')
 const authRouter = require('./auth/auth-router')
+const usersRouter = require('./users/users-router')
 
 const app = express()
 
@@ -23,6 +24,7 @@ app.use(cors({
 
 app.use('/api/items',itemRouter)
 app.use('/api', authRouter)
+app.use('/api/users', usersRouter)
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
