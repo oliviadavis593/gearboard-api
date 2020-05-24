@@ -27,7 +27,7 @@ app.use('/api', authRouter)
 app.use('/api/users', usersRouter)
 
 app.get('/', (req, res) => {
-    res.send('Hello, Heroku!')
+    res.send('Hello, world!')
 })
 
 app.use(errorHandler)

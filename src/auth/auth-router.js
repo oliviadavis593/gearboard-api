@@ -1,4 +1,5 @@
 const express = require('express')
+const UsersService = require('../users/users-service')
 const AuthService = require('./auth-service')
 
 const authRouter = express.Router()
@@ -28,7 +29,7 @@ authRouter
                     })
 
 
-            return AuthService.comparePasswords(loginUser.password, dbUser.password)
+            return AuthService.comparePasswords(UsersService.hashPassword(loginUser.password), dbUser.password)
                 .then(compareMatch => {
                         if (!compareMatch)
                             return res.status(400).json({
