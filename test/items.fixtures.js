@@ -32,17 +32,17 @@ function makeUsersArray() {
         {
             full_name: 'Demo',
             email: 'dodo@gmail.com',
-            password: 'password'
+            password: bcrypt.hashSync('password', 12),
         },
-        {  
+        {
             full_name: 'Test',
             email: 'gearboard@123.com',
-            password: 'password'
+            password: bcrypt.hashSync('password', 12),
         },
         {
             full_name: 'Test',
             email: 'fearboard@111.com',
-            password: 'password'
+            password: bcrypt.hashSync('password', 12),
         }
     ]
 }
