@@ -16,7 +16,6 @@ authRouter
                     error: `Missing '${key}' in request body`
                 })
 
-
         AuthService.getUserWithEmail(
             req.app.get('db'),
             loginUser.email
@@ -27,22 +26,24 @@ authRouter
                     return res.status(400).json({
                         error: 'Incorrect email or password'
                     })
-
-
-            return AuthService.comparePasswords(UsersService.hashPassword(loginUser.password), dbUser.password)
+         
+            return AuthService.comparePasswords(password, dbUser.password)
                 .then(compareMatch => {
-                        if (!compareMatch)
-                            return res.status(400).json({
-                                error: 'Incorrect email or password'
-                            })
-                            const sub = dbUser.email
-                            const payload = { email: dbUser.email }
-                            res.send({
-                                authToken: AuthService.createJwt(sub, payload),
-                            })
+                    if (!compareMatch)
+                        return res.status(400).json({
+                            error: 'Incorrect email or password'
                         })
+                        const sub = dbUser.email
+                        const payload = { email: dbUser.email }
+                        res.send({
+                            authToken: AuthService.createJwt(sub, payload),
+                        })
+                    })
             })
-            .catch(next)
+            .catch(next)          
     })
 
 module.exports = authRouter 
+
+
+

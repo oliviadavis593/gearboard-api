@@ -8,11 +8,7 @@ const AuthService = {
             .first()
     },
     comparePasswords(password, hash) {
-        if (password === hash) {
-            return Promise.resolve(true)
-        } else {
-           return Promise.resolve(false)
-        }
+        return bcrypt.compare(password, hash)
     },
     createJwt(subject, payload) {
         return jwt.sign(payload, config.JWT_SECRET, {

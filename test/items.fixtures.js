@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 function makeItemsArray() {
     return [
@@ -53,16 +54,6 @@ function makeItemsFixtures() {
 
     return { testUsers, testItems }
 }
-
-/*
-function makeAuthHeader(email, secret = process.env.JWT_SECRET) {
-    const token = jwt.sign({ email: email.id}, secret, {
-        subject: email.email, 
-        algorithm: 'HS256',
-    })
-    return `Bearer ${token}`
-}
-*/
 
 function makeAuthHeader(user) {
     const token = Buffer.from(`${user.email}:${user.password}`).toString('base64')

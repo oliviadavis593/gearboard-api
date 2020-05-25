@@ -24,11 +24,11 @@ describe('Auth Endpoints', function() {
   afterEach('cleanup', () => db('gearboard_users').truncate())
 
   describe(`POST /api/login`, () => {
-      beforeEach('insert user', () => {
-        return db 
-        .into('gearboard_users')
-        .insert(testUser)
-      })
+    beforeEach('insert user', () => {
+      return db 
+      .into('gearboard_users')
+      .insert(testUser)
+    })
 
       const requiredFields = ['email', 'password']
       
@@ -48,6 +48,7 @@ describe('Auth Endpoints', function() {
                     error: `Missing '${field}' in request body`,
                 })
           })
+        })
 
           it(`responds 400 'invalid email or password' when bad email`, () => {
               const userInvalid = {
@@ -93,8 +94,10 @@ describe('Auth Endpoints', function() {
               .send(userValidCreds)
               .expect(200, {
                 authToken: expectedToken,
+              }) 
+              .then(res => {
+                console.log("res.body", res.body)
               })
           })
-      })
   })
 })
