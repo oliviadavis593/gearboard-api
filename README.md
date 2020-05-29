@@ -85,7 +85,7 @@
 }
 ```
 
-Tech Used 🖥
+# Tech Used 🖥
 - [Node](https://nodejs.org/en/) - Run-time environment
 - [Express](https://expressjs.com/) - Web application framework
 - [PostgreSQL](https://www.postgresql.org/) - Relational Database Management System
