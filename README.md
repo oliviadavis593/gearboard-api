@@ -1,5 +1,5 @@
 # GearBoard
-- [GearBoard] is a full-stack React application designed to help music lovers keep track of their gear! It provides a responsive, intuitive experience for users to add gear and track all of their instruments. 
+- [GearBoard](https://gearboard-app.now.sh/) is a full-stack React application designed to help music lovers keep track of their gear! It provides a responsive, intuitive experience for users to add gear and track all of their instruments. 
 
 # API Overiew
 
@@ -20,7 +20,7 @@
 │       ├── /:item_id   
 ```
 
-# POST `/api/auth/login
+# POST `/api/auth/login`
 ```
 //req.body
 {
