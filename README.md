@@ -19,3 +19,17 @@
 │   └── DELETE
 │       ├── /:item_id   
 ```
+
+# POST `/api/auth/login
+```
+//req.body
+{
+    username: String, 
+    password: String, 
+}
+
+//res.body
+{
+    authToken: String
+}
+```
