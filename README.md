@@ -78,7 +78,7 @@
     [
         id: item_id, 
         rating: '🎸',
-        gear_name: [String]
+        gear_name: [String],
         features: [String], 
         comments: [String]
     ]
