@@ -20,7 +20,7 @@
 │       ├── /:item_id   
 ```
 
-## POST `/api/auth/login`
+### POST `/api/auth/login`
 ```javascript
 //req.body
 {
