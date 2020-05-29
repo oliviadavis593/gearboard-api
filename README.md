@@ -6,11 +6,10 @@
 ```
 /api
 .
-├── /auth
+├──
 │   └── POST
 │       ├── /login
 ├── /users
-│   └── GET
 │   └── POST
 ├── /items
 │   └── GET
@@ -20,7 +19,7 @@
 │       ├── /:item_id   
 ```
 
-### POST `/api/auth/login`
+### POST `/api/login`
 ```javascript
 //req.body
 {
@@ -32,4 +31,34 @@
 {
     authToken: String
 }
+```
+
+### POST `/api/users`
+```javascript
+//req.body
+{
+    full_name: String, 
+    email: String, 
+    password: String 
+}
+
+//res.body
+{
+    full_name: String, 
+    email: String, 
+    password: String
+}
+```
+
+### GET `/api/items`
+```javascript
+//req.body
+[
+    {
+        rating: '🎸',
+        gear_name: String, 
+        features: String, 
+        comments: String
+    }
+]
 ```
